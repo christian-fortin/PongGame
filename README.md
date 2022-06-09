@@ -9,7 +9,7 @@
 ### To Play:
 - Fork and Clone the repo.
 - Make sure Python3 is installed.
-- In the comand line in the correct folder: "Python3 pongGame.py".
+- In the comand line of VS code, in the correct folder: "Python3 pongGame.py".
 
 ### Rules and Keys:
 - If the ball goes past the opponents paddle that is a point.
