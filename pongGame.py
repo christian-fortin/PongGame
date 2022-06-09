@@ -9,6 +9,10 @@ window.setup(width=800, height=600)
 window.tracer(0)
 # this^ stops the window from automatically updating and so we manually update it and speeds up the game
 
+# Score
+score_a = 0
+score_b = 0
+
 # Paddle A
 paddle_a = turtle.Turtle()
 #turtle is the module
@@ -44,31 +48,42 @@ ball.shape("square")
 ball.color("white")
 ball.penup()
 ball.goto(0,0)
+# ball movement speed:
+ball.dx = 2.3
+ball.dy = -2.3
 
+# Pen
+pen = turtle.Turtle()
+pen.speed(0)
+pen.color("white")
+pen.penup()
+pen.hideturtle()
+pen.goto(0, 260)
+pen.write("PlayerA: 0  PlayerB: 0", align="center", font=("Courier", 24, "normal"))
 
 # Functions:
 def paddle_a_up():
     y = paddle_a.ycor()
-    y += 20
+    y += 30
     # adds 20px to y cordinate 
     paddle_a.sety(y)
     
 def paddle_a_down():
     y = paddle_a.ycor()
-    y -= 20
+    y -= 30
     # adds 20px to y cordinate 
     paddle_a.sety(y)
     
     
 def paddle_b_up():
     y = paddle_b.ycor()
-    y += 20
+    y += 30
     # adds 20px to y cordinate 
     paddle_b.sety(y)
     
 def paddle_b_down():
     y = paddle_b.ycor()
-    y -= 20
+    y -= 30
     # adds 20px to y cordinate 
     paddle_b.sety(y)
     
@@ -82,7 +97,51 @@ window.onkeypress(paddle_b_up, "Up")
 window.onkeypress(paddle_b_down, "Down")
 
 
+
+
+
 # Main Portion of the Game
+ # Every time the loop runs it updates the screen
 while True:
     window.update()
-    # Everytime the loop runs it updates the screen
+    
+    # Move the ball
+    ball.setx(ball.xcor() + ball.dx)
+    ball.sety(ball.ycor() + ball.dy)
+   
+
+    # Border checking:
+    if ball.ycor() > 290: 
+        ball.sety(290)
+        ball.dy *= -1
+    
+    if ball.ycor() < -290: 
+        ball.sety(-290)
+        ball.dy *= -1
+    
+    if ball.xcor() > 390: 
+        ball.goto(0,0)
+        ball.dx *= -1
+        score_a += 1
+        pen.clear()
+        pen.write("PlayerA: {}  PlayerB: {}".format(score_a, score_b), align="center", font=("Courier", 24, "normal"))
+    
+    if ball.xcor() < -390: 
+        ball.goto(0,0)
+        ball.dx *= -1
+        score_b += 1  
+        pen.clear()
+        pen.write("PlayerA: {}  PlayerB: {}".format(score_a, score_b), align="center", font=("Courier", 24, "normal"))
+
+    # Paddle and Ball Collisions:
+    if (ball.xcor() > 340  and ball.xcor() < 350) and (ball.ycor() < paddle_b.ycor() + 40 and ball.ycor() > paddle_b.ycor() -40): 
+        ball.setx(340)
+        ball.dx *= -1
+    
+    if (ball.xcor() < -340  and ball.xcor() > -350) and (ball.ycor() < paddle_a.ycor() + 40 and ball.ycor() > paddle_a.ycor() -40): 
+        ball.setx(-340)
+        ball.dx *= -1
+    
+    
+    
+    
